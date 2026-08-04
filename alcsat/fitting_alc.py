@@ -1,8 +1,8 @@
 import concurrent.futures
-from enum import StrEnum
 import time
 from collections.abc import Iterable
 from concurrent.futures import ProcessPoolExecutor
+from enum import StrEnum
 from typing import Any
 
 from pysat.card import CardEnc, EncType
@@ -10,19 +10,19 @@ from pysat.solvers import Solver
 
 from alcsat.instance import ALC_OP, OP, ALCConcept, Instance
 from alcsat.preprocessing import (
+    ThresholdMethod,
     bisimulation_reduction,
+    color_refinement,
     decode_dataproperties,
     decode_inverses,
+    deduplicate,
     determine_max_q_per_relation,
     encode_dataproperties,
     encode_inverses,
-    prune_conceptnames,
-    restrict_neighborhood,
-    ThresholdMethod,
-    color_refinement,
     extract_concept,
     merge_conj,
-    deduplicate,
+    prune_conceptnames,
+    restrict_neighborhood,
     simplify_conj,
 )
 
@@ -33,7 +33,6 @@ from .fitting_el import (
 from .structures import (
     Signature,
     Structure,
-    entire_signature,
 )
 
 
@@ -853,14 +852,14 @@ def perfect_fitting(
         neg_colors[c] += 1
 
     disj = list()
-    for cp in pos_colors.keys():
+    for cp in pos_colors:
         if cp in neg_colors and pos_colors[cp] < neg_colors[cp]:
             # Including this positive example would include a lot of negative
             # examples and thus not be beneficial for accuracy
             continue
 
         conj = list()
-        for cn in neg_colors.keys():
+        for cn in neg_colors:
             if cp == cn:
                 continue
 

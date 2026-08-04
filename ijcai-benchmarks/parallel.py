@@ -1,7 +1,8 @@
 import time
-from alcsat_cli import L_OP
-from alcsat.structures import structure_from_owl
+
 from alcsat.fitting_alc import FittingALC
+from alcsat.structures import structure_from_owl
+from alcsat_cli import L_OP
 
 
 def main():
@@ -16,13 +17,13 @@ def main():
 
         P: list[int] = []
         with open(pospath, encoding="UTF-8") as file:
-            for line in file.readlines():
+            for line in file:
                 ind = line.rstrip()
                 P.append(A.indmap[ind])
 
         N: list[int] = []
         with open(negpath, encoding="UTF-8") as file:
-            for line in file.readlines():
+            for line in file:
                 ind = line.rstrip()
                 N.append(A.indmap[ind])
 
@@ -47,7 +48,7 @@ def main():
 
                 end = time.perf_counter()
 
-                print("==== TOOK {}".format(end - start))
+                print(f"==== TOOK {end - start}")
                 times[w].append(end - start)
 
         for w in workers:

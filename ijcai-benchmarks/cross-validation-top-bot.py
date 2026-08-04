@@ -1,18 +1,10 @@
-from owlapy.owl_individual import OWLNamedIndividual
-from ontolearn.learning_problem import PosNegLPStandard
-from sklearn.model_selection import StratifiedKFold
-from ontolearn.utils.static_funcs import compute_f1_score
-import time
-from ontolearn.learners import TDL
-from ontolearn.knowledge_base import KnowledgeBase
-from alcsat.fitting_el import determine_relevant_symbols
-import sys
-from alcsat.structures import structure_from_owl
-from alcsat.fitting_alc import FittingALC
-from alcsat.preprocessing import ThresholdMethod
 import random
-from alcsat.instance import Instance, OP, ALCConcept
-import numpy as np
+import sys
+
+from alcsat.fitting_el import determine_relevant_symbols
+from alcsat.instance import OP, ALCConcept, Instance
+from alcsat.preprocessing import ThresholdMethod
+from alcsat.structures import structure_from_owl
 
 
 def chunks(lst: list[int], n: int):
@@ -86,31 +78,27 @@ def sml_benchmark_cross_validate(resultpath: str, tm: ThresholdMethod):
             pospath = f"../sml-benchmarks/{bench}/full/pos.txt"
             negpath = f"../sml-benchmarks/{bench}/full/neg.txt"
 
-            print("== Loading {}".format(owlfile))
+            print(f"== Loading {owlfile}")
             A = structure_from_owl(owlfile)
 
             P: list[int] = []
             with open(pospath, encoding="UTF-8") as file:
-                for line in file.readlines():
+                for line in file:
                     ind = line.rstrip()
                     if ind not in A.indmap:
                         print(
-                            "[ERR] The positive example {} does not seem to occur in {}".format(
-                                ind, owlfile
-                            )
+                            f"[ERR] The positive example {ind} does not seem to occur in {owlfile}"
                         )
                         sys.exit(1)
                     P.append(A.indmap[ind])
 
             N: list[int] = []
             with open(negpath, encoding="UTF-8") as file:
-                for line in file.readlines():
+                for line in file:
                     ind = line.rstrip()
                     if ind not in A.indmap:
                         print(
-                            "[ERR] The negative example {} does not seem to occur in {}".format(
-                                ind, owlfile
-                            )
+                            f"[ERR] The negative example {ind} does not seem to occur in {owlfile}"
                         )
                         sys.exit(1)
                     N.append(A.indmap[ind])

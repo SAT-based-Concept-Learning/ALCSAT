@@ -1,11 +1,11 @@
 from alcsat.fitting_alc import FittingALC, all_trees
-from alcsat.structures import Structure, Signature
 from alcsat.instance import ALCQ_OP, OP, ALCConcept, Instance
 from alcsat.preprocessing import (
     bisimulation_reduction,
     color_refinement,
     extract_concept,
 )
+from alcsat.structures import Signature, Structure
 
 
 def test_trees():
@@ -336,7 +336,6 @@ def testExtraction():
                 assert res.mc(A2, a)
                 assert not res.mc(A2, b)
 
-    return
 
 
 if __name__ == "__main__":

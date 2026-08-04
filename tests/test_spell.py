@@ -51,7 +51,7 @@ def test_hard():
     time_start = time.process_time()
     assert fitting_exists(A, P, N)
     time_end = time.process_time()
-    print("{}".format(time_end - time_start))
+    print(f"{time_end - time_start}")
 
 
 def test_father():
@@ -661,9 +661,9 @@ def test_resoning1():
 
     t = EL_TBox("top")
     for i in range(1, 15):
-        t.add_axiom3("A{}".format(i), "r{}".format(i), "top")
-        t.add_range_restriction("r{}".format(i), "A{}".format(i + 1))
-        t.add_role_inc("r{}".format(i), "r")
+        t.add_axiom3(f"A{i}", f"r{i}", "top")
+        t.add_range_restriction(f"r{i}", f"A{i + 1}")
+        t.add_role_inc(f"r{i}", "r")
 
     t.add_axiom3("A", "s", "A")
     t.add_role_inc("s", "r")
@@ -694,7 +694,7 @@ def test_resoning2():
     Ab = ABoxBuilder()
     Ab.declare_rn("s")
     for i in range(1, 15):
-        Ab.role_assertion(Ab.map_ind("a{}".format(i)), "a{}".format(i + 1), "s")
+        Ab.role_assertion(Ab.map_ind(f"a{i}"), f"a{i + 1}", "s")
 
     Ab.concept_assertion(Ab.map_ind("a14"), "A")
     Ab.concept_assertion(Ab.map_ind("b"), "A")

@@ -2,8 +2,8 @@ import argparse
 import sys
 import time
 
-from alcsat.instance import OP
 from alcsat.fitting_alc import FittingALC, FittingMode
+from alcsat.instance import OP
 from alcsat.structures import structure_from_owl
 
 LANGUAGES = ["el", "el_alcsat", "fl0", "ex-or", "all-or", "elu", "alc", "alcq"]
@@ -75,31 +75,27 @@ def main():
 
     time_start = time.perf_counter()
 
-    print("== Loading {}".format(owlfile))
+    print(f"== Loading {owlfile}")
     A = structure_from_owl(owlfile)
 
     P: list[int] = []
     with open(pospath, encoding="UTF-8") as file:
-        for line in file.readlines():
+        for line in file:
             ind = line.rstrip()
             if ind not in A.indmap:
                 print(
-                    "[ERR] The positive example {} does not seem to occur in {}".format(
-                        ind, owlfile
-                    )
+                    f"[ERR] The positive example {ind} does not seem to occur in {owlfile}"
                 )
                 sys.exit(1)
             P.append(A.indmap[ind])
 
     N: list[int] = []
     with open(negpath, encoding="UTF-8") as file:
-        for line in file.readlines():
+        for line in file:
             ind = line.rstrip()
             if ind not in A.indmap:
                 print(
-                    "[ERR] The negative example {} does not seem to occur in {}".format(
-                        ind, owlfile
-                    )
+                    f"[ERR] The negative example {ind} does not seem to occur in {owlfile}"
                 )
                 sys.exit(1)
             N.append(A.indmap[ind])
@@ -131,11 +127,9 @@ def main():
     time_solved = time.perf_counter()
 
     print(
-        "== Took {:.2f}s for reading input and {:.3f}s for solving".format(
-            time_parsed - time_start, time_solved - time_start_solve
-        )
+        f"== Took {time_parsed - time_start:.2f}s for reading input and {time_solved - time_start_solve:.3f}s for solving"
     )
-    print("== Reached accurary {:.4f}".format(acc))
+    print(f"== Reached accurary {acc:.4f}")
 
 
 if __name__ == "__main__":

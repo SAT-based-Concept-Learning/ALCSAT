@@ -49,7 +49,7 @@ def make_res_absolute(elem, res):
         return res
 
 
-class OWLReader(object):
+class OWLReader:
     namespaces = {
         "owl": "http://www.w3.org/2002/07/owl#",
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -457,9 +457,7 @@ class OWLReader(object):
                         options["is_reflexive"] = True
                     elif prop_type.endswith("DatatypeProperty"):
                         pass  # TODO skipping DatatypeProperty
-                    elif prop_type.endswith("ObjectProperty"):
-                        pass
-                    elif prop_type.endswith("#Property"):
+                    elif prop_type.endswith("ObjectProperty") or prop_type.endswith("#Property"):
                         pass
                     else:
                         self.parse_error(

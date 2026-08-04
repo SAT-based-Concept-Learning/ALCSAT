@@ -1,10 +1,10 @@
-from collections import defaultdict
 import json
 import os
 import random
 import subprocess
 import sys
 import time
+from collections import defaultdict
 from pathlib import Path
 
 import pandas as pd
@@ -12,13 +12,13 @@ from owlready2 import default_world, get_ontology
 from rdflib import Graph
 
 from alcsat.benchmark_tools import construct_owl_from_structure
-from alcsat.fitting_el import determine_relevant_symbols
 from alcsat.fitting_alc import FittingALC
+from alcsat.instance import ALC_OP, OP
+from alcsat.preprocessing import (
+    color_refinement,
+    restrict_to_neighborhood,
+)
 from alcsat.structures import Signature, Structure, map_ind_name, structure_from_owl
-from alcsat.instance import ALC_OP, OP, Instance
-from alcsat.preprocessing import color_refinement, ThresholdMethod
-
-from alcsat.preprocessing import restrict_to_neighborhood
 
 from .ontolearn_benchmark import run_evo, run_tdl
 
@@ -90,9 +90,9 @@ def instance_to_sparcel(kb_path, p, n, dest, file_name="dl_instance"):
         f.write('reasoner.type = "fast instance checker"\n')
         f.write("reasoner.sources = { ks }\n")
         f.write('lp.type = "org.dllearner.algorithms.ParCEL.ParCELPosNegLP"\n')
-        k = ",".join(['"{}"'.format(x) for x in p if x.isascii()])
+        k = ",".join([f'"{x}"' for x in p if x.isascii()])
         f.write(f"lp.positiveExamples = {{ {k} }}\n")
-        k = ",".join(['"{}"'.format(x) for x in n if x.isascii()])
+        k = ",".join([f'"{x}"' for x in n if x.isascii()])
         # k = ",".join(map(lambda x : f'"{x}"',n))
         f.write(f"lp.negativeExamples = {{ {k} }}\n")
         f.write(
@@ -629,7 +629,7 @@ def examples_from_bisim(kb_path, output_dir, n_ex = 10, max_datasets = -1):
         #if a > 0 and k > 5:
         P_s = [ind_map_inv[x] for x in P]
         N_s = [ind_map_inv[x] for x in N]
-        dest_dir = os.path.join(output_dir, f"{len(P_s)+len(N_s)}ex-{str(i)}")
+        dest_dir = os.path.join(output_dir, f"{len(P_s)+len(N_s)}ex-{i!s}")
         os.mkdir(dest_dir)
         write_examples(P_s, N_s, dest_dir)
         reduce_size_by_examples2(
@@ -774,7 +774,6 @@ def alcq_benchmarks_to_csv(dir_path):
     df = pd.DataFrame(rows,columns = ['m', 'a_alcsat', 'a_evo', 'a_tdl', 't_alcsat', 't_evo', 't_tdl', 's_alcsat', 's_evo', 's_tdl','f_alcsat', 'f_evo', 'f_tdl'])
     df.to_csv(os.path.join(dir_path, "data.csv"), index = False)
 
-import pandas as pd
 
 def alcq_combine_csvs(path1, path2, out_path):
     df1 = pd.read_csv(path1)
@@ -843,12 +842,12 @@ def combine_bisim_examples(kb_path,dir_path, dest_dir):
     if not os.path.exists(dest_dir):
         os.mkdir(dest_dir)
     dirs = sorted(filter(lambda s : not s.startswith(".") and os.path.isdir(os.path.join(dir_path,s)) ,os.listdir(dir_path)),reverse = True)
-    for i in range(0,len(dirs)-1):
+    for i in range(len(dirs)-1):
         P1,N1 = read_examples(os.path.join(dir_path,dirs[i]))
         P2,N2 = read_examples(os.path.join(dir_path,dirs[i+1]))
         P = P1 + P2
         N = N1 + N2
-        d_dir = os.path.join(dest_dir, f"{len(P)+len(N)}ex-{str(i)}" )
+        d_dir = os.path.join(dest_dir, f"{len(P)+len(N)}ex-{i!s}" )
         os.mkdir(d_dir)
         write_examples(P,N, os.path.join(d_dir))
         A = structure_from_owl(kb_path)
@@ -873,7 +872,7 @@ def combine_bisim_examples2(kb_path,dir_path, dest_dir, max_per_size = 5):
                 N = N1 + N2
                 if d[len(P)+len(N)] < max_per_size:
                     d[len(P)+len(N)] += 1
-                    d_dir = os.path.join(dest_dir, f"{len(P)+len(N)}ex-{str(k)}" )
+                    d_dir = os.path.join(dest_dir, f"{len(P)+len(N)}ex-{k!s}" )
                     os.mkdir(d_dir)
                     write_examples(P,N, os.path.join(d_dir))
                     A = structure_from_owl(kb_path)                    

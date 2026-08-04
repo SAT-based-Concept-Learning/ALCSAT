@@ -28,9 +28,7 @@ def drop_leave_atom(c: ELConcept) -> list[ELConcept]:
 
     for rn, d in c:
         weak_c = c - {(rn, d)}
-        if not d:
-            res.append(weak_c)
-        elif len(d) == 0:
+        if not d or len(d) == 0:
             res.append(weak_c)
         else:
             for weak_d in drop_leave_atom(d):
@@ -118,9 +116,7 @@ def frontier(c: ELConcept) -> list[ELConcept]:
 
     for rn, d in c:
         base: ELConcept = c - {(rn, d)}
-        if not d:  # Conceptname
-            res.append(base)
-        elif len(d) == 0:  # Leaf
+        if not d or len(d) == 0:  # Conceptname
             res.append(base)
         else:
             for fd in frontier(d):
@@ -322,8 +318,7 @@ def create_restricted_owl(owlfile, individuals: list[str], result):
     tmp_file = ".filter-inds.txt"
 
     with open(tmp_file, "w") as file:
-        for a in individuals:
-            file.write(a + "\n")
+        file.writelines(a + "\n" for a in individuals)
 
     cmd = '{} \
      reason --input {} --axiom-generators "ClassAssertion" --include-indirect true \
@@ -458,12 +453,10 @@ def emit_sml_benchmark(
     os.makedirs(example_dir, exist_ok=True)
 
     with open(p_example_path, "w") as the_file:
-        for p in P:
-            the_file.write(p + "\n")
+        the_file.writelines(p + "\n" for p in P)
 
     with open(n_example_path, "w") as the_file:
-        for n in N:
-            the_file.write(n + "\n")
+        the_file.writelines(n + "\n" for n in N)
 
     with open(dll_conf_path, "w") as file:
         file.write("[main]\n")
@@ -481,8 +474,7 @@ def emit_sml_benchmark(
         file.write(f"Number of positive examples: {len(P)}\n")
         file.write(f"Number of negative examples: {len(N)}\n")
 
-        for v in info:
-            file.write(v + "\n")
+        file.writelines(v + "\n" for v in info)
 
     owl_dir = f"{path}/{name}/owl/data"
     owl_path = f"{owl_dir}/{name}.owl"
@@ -620,10 +612,10 @@ def load_sml_tasks(path: str, task: str):
         negpath = f"{basepath}/owl/lp/{lp}/neg.txt"
 
         with open(pospath, encoding="UTF-8") as file:
-            P = [map_ind_name(A, line.rstrip()) for line in file.readlines()]
+            P = [map_ind_name(A, line.rstrip()) for line in file]
 
         with open(negpath, encoding="UTF-8") as file:
-            N = [map_ind_name(A, line.rstrip()) for line in file.readlines()]
+            N = [map_ind_name(A, line.rstrip()) for line in file]
 
         res[lp] = (owlpath, A, P, N)
     return res
@@ -729,11 +721,9 @@ def construct_owl_from_structure(filename: str, A: Structure):
         for cn in sigma.conceptnames:
             file.write(f'<owl:Class rdf:about="{encode(cn)}"/>\n')
 
-        for rn in sigma.rolenames:
-            file.write(f'<owl:ObjectProperty rdf:about="{encode(rn)}"/>\n')
+        file.writelines(f'<owl:ObjectProperty rdf:about="{encode(rn)}"/>\n' for rn in sigma.rolenames)
 
-        for dp in dps:
-            file.write(f'<owl:DatatypeProperty rdf:about="{encode(dp)}"/>\n')
+        file.writelines(f'<owl:DatatypeProperty rdf:about="{encode(dp)}"/>\n' for dp in dps)
 
         for a in ind(A):
             file.write(
@@ -785,13 +775,9 @@ def construct_owl_from_concepts(
             '<?xml version="1.0"?> \n <rdf:RDF xmlns="urn:absolute:test#" xml:base="urn:absolute:test" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:test="http://example.com/test#"> <owl:Ontology rdf:about="urn:absolute:test"/> \n'
         )
 
-        for cn in sigma.conceptnames:
-            file.write(f'<owl:Class rdf:about="http://example.com/test#{cn}"/>\n')
+        file.writelines(f'<owl:Class rdf:about="http://example.com/test#{cn}"/>\n' for cn in sigma.conceptnames)
 
-        for rn in sigma.rolenames:
-            file.write(
-                f'<owl:ObjectProperty rdf:about="http://example.com/test#{rn}"/>\n'
-            )
+        file.writelines(f'<owl:ObjectProperty rdf:about="http://example.com/test#{rn}"/>\n' for rn in sigma.rolenames)
 
         maxind = 0
         queue: list[tuple[ELConcept, int]] = []
@@ -921,9 +907,7 @@ def is_addition_still_core(base: ELConcept, rn, add) -> bool:
 def core_frontier(c: ELConcept) -> Generator[ELConcept, None, None]:
     for rn, d in c:
         base: ELConcept = c - {(rn, d)}
-        if not d:  # Conceptname
-            yield base
-        elif len(d) == 0:  # Leaf
+        if not d or len(d) == 0:  # Conceptname
             yield base
         else:
             fg = core_frontier(d)

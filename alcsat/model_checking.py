@@ -25,17 +25,17 @@ class ALC_Concept:
             return not self.c1.mc(A, a)
         if self.sym == OP.EX:
             return any(
-                (
+                
                     self.c1.mc(A, b[0])
                     for b in filter(lambda t: t[1] == self.rn, A.rn_ext[a])
-                )
+                
             )
         if self.sym == OP.ALL:
             return all(
-                (
+                
                     self.c1.mc(A, b[0])
                     for b in filter(lambda t: t[1] == self.rn, A.rn_ext[a])
-                )
+                
             )
         assert False
 

@@ -1,12 +1,10 @@
 from alcsat.fitting_alc import perfect_fitting
-from alcsat.preprocessing import (
-    color_refinement,
-    ThresholdMethod,
-    decode_dataproperties,
-)
 from alcsat.fitting_el import non_empty_symbols
-from alcsat.instance import ALCConcept, OP, Instance
-from alcsat.structures import Signature, Structure, structure_from_owl
+from alcsat.instance import Instance
+from alcsat.preprocessing import (
+    ThresholdMethod,
+)
+from alcsat.structures import structure_from_owl
 
 
 def main():
@@ -22,13 +20,13 @@ def main():
 
             P: list[int] = []
             with open(pospath, encoding="UTF-8") as file:
-                for line in file.readlines():
+                for line in file:
                     ind = line.rstrip()
                     P.append(A.indmap[ind])
 
             N: list[int] = []
             with open(negpath, encoding="UTF-8") as file:
-                for line in file.readlines():
+                for line in file:
                     ind = line.rstrip()
                     N.append(A.indmap[ind])
 
@@ -45,7 +43,7 @@ def main():
             outfile.write(f"{benchmark}, NONE, 0, {acc}, {size}\n")
             print(acc)
 
-            for t in {2, 4, 6, 8, 10, 12, 14, 16, 18, 20}:
+            for t in (2, 4, 6, 8, 10, 12, 14, 16, 18, 20):
                 print(f"=== {benchmark} {t} Thresholds")
 
                 acc, size, c = perfect_fitting(inst, ThresholdMethod.INTERVALS, t)

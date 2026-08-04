@@ -1,20 +1,16 @@
-from owlapy.render import DLSyntaxObjectRenderer, ManchesterOWLSyntaxOWLObjectRenderer
-from owlapy.owl_individual import OWLNamedIndividual
-from ontolearn.learning_problem import PosNegLPStandard
-from sklearn.model_selection import StratifiedKFold
-from ontolearn.utils.static_funcs import compute_f1_score
 import time
-from ontolearn.learners import TDL
-from ontolearn.knowledge_base import KnowledgeBase
-from alcsat.fitting_el import determine_relevant_symbols
-import sys
-from alcsat.structures import structure_from_owl
-from alcsat.fitting_alc import FittingALC
-from alcsat.preprocessing import ThresholdMethod
-import random
-from alcsat.instance import Instance, OP
+
 import numpy as np
+from ontolearn.knowledge_base import KnowledgeBase
+from ontolearn.learners import TDL
+from ontolearn.learning_problem import PosNegLPStandard
+from ontolearn.utils.static_funcs import compute_f1_score
+from owlapy.owl_individual import OWLNamedIndividual
+from owlapy.render import DLSyntaxObjectRenderer, ManchesterOWLSyntaxOWLObjectRenderer
+from sklearn.model_selection import StratifiedKFold
+
 from alc_benchmarks.ontolearn_benchmark import owl_concept_size
+
 
 def size(concept) -> int:
     rd = ManchesterOWLSyntaxOWLObjectRenderer()
@@ -69,13 +65,13 @@ def sml_benchmark_cross_validate(resultpath: str):
 
             p: list[str] = []
             with open(pos_path, encoding="UTF-8") as file:
-                for line in file.readlines():
+                for line in file:
                     ind = line.rstrip()
                     p.append(ind)
 
             n: list[str] = []
             with open(neg_path, encoding="UTF-8") as file:
-                for line in file.readlines():
+                for line in file:
                     ind = line.rstrip()
                     n.append(ind)
 
@@ -84,7 +80,6 @@ def sml_benchmark_cross_validate(resultpath: str):
             y = np.array([1.0 for _ in p] + [0.0 for _ in n])
 
             for ith, (train_index, test_index) in enumerate(kf.split(X, y)):
-                #
                 data.setdefault("LP", []).append(owlfile)
                 data.setdefault("Fold", []).append(ith)
                 # () Extract positive and negative examples from train fold

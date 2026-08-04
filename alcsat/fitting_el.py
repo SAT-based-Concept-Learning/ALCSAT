@@ -5,6 +5,7 @@ from typing import NamedTuple
 from pysat.card import CardEnc, EncType
 from pysat.solvers import Glucose4, pysolvers
 
+from .preprocessing import restrict_to_neighborhood
 from .structures import (
     Signature,
     Structure,
@@ -13,7 +14,6 @@ from .structures import (
     ind,
     solution2sparql,
 )
-from .preprocessing import restrict_to_neighborhood
 
 mode = Enum("mode", "exact neg_approx full_approx alc")
 
@@ -290,7 +290,7 @@ def tree_query_constraints(size: int, sigma: Signature, v: Variables):
 
         if size < 14:
             # At most one tree. Skip this if size gets too large, since it grows quadratically in the number of trees
-            for j in range(0, len(ktrees)):
+            for j in range(len(ktrees)):
                 for i in range(j):
                     yield (-treechoice[i], -treechoice[j])
 

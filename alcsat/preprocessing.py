@@ -1,10 +1,12 @@
-from enum import Enum
 from collections import defaultdict
+from enum import Enum
 from typing import Any
-from alcsat.instance import ALCConcept, Instance, OP
-from alcsat.structures import Signature, Structure, ind
-from scipy.cluster.vq import kmeans
+
 from numpy import array
+from scipy.cluster.vq import kmeans
+
+from alcsat.instance import OP, ALCConcept, Instance
+from alcsat.structures import Signature, Structure, ind
 
 
 class ThresholdMethod(Enum):

@@ -123,15 +123,12 @@ class ABoxBuilder:
         assert "{" not in cn
         if cn not in self.A.cn_ext:
             self.A.cn_ext[cn] = set()
-        return
 
     def declare_rn(self, rn: str):
         self.role_names.add(rn)
-        return
 
     def declare_dp(self, dp: str):
         self.data_types[dp] = ""
-        return
 
     def concept_assertion(self, a: int, concept: str):
         self.declare_cn(concept)
@@ -151,18 +148,11 @@ class ABoxBuilder:
             self.A.dp_ext[idx1].append((float(text), type, property))
         elif type == "http://www.w3.org/2001/XMLSchema#boolean":
             self.A.dp_ext[idx1].append((text == "true", type, property))
-        elif type == "http://www.w3.org/2001/XMLSchema#int":
-            self.A.dp_ext[idx1].append((int(text), type, property))
-        elif type == "http://www.w3.org/2001/XMLSchema#integer":
-            self.A.dp_ext[idx1].append((int(text), type, property))
-        elif type == "http://www.w3.org/2001/XMLSchema#nonNegativeInteger":
+        elif type == "http://www.w3.org/2001/XMLSchema#int" or type == "http://www.w3.org/2001/XMLSchema#integer" or type == "http://www.w3.org/2001/XMLSchema#nonNegativeInteger":
             self.A.dp_ext[idx1].append((int(text), type, property))
         elif type == "http://www.w3.org/2001/XMLSchema#string":
             self.A.dp_ext[idx1].append((text, type, property))
-        elif type == "http://www.w3.org/2001/XMLSchema#date":
-            # As an approximation, compare dates as strings
-            self.A.dp_ext[idx1].append((text, type, property))
-        elif type == "http://www.w3.org/2001/XMLSchema#dateTime":
+        elif type == "http://www.w3.org/2001/XMLSchema#date" or type == "http://www.w3.org/2001/XMLSchema#dateTime":
             # As an approximation, compare dates as strings
             self.A.dp_ext[idx1].append((text, type, property))
         else:

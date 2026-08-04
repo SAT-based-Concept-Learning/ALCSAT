@@ -1,10 +1,17 @@
-from alcsat.preprocessing import restrict_neighborhood, bisimulation_reduction, encode_inverses, ThresholdMethod, encode_dataproperties
-from alcsat.fitting_el import non_empty_symbols, determine_relevant_symbols
-from alcsat.instance import Instance, OP
 import time
-from alcsat_cli import L_OP
-from alcsat.structures import structure_from_owl
+
 from alcsat.fitting_alc import FittingALC
+from alcsat.fitting_el import determine_relevant_symbols, non_empty_symbols
+from alcsat.instance import OP, Instance
+from alcsat.preprocessing import (
+    ThresholdMethod,
+    bisimulation_reduction,
+    encode_dataproperties,
+    encode_inverses,
+    restrict_neighborhood,
+)
+from alcsat.structures import structure_from_owl
+from alcsat_cli import L_OP
 
 
 def sizes(A, P, N, max_k, ops, max_q):
@@ -57,13 +64,13 @@ def main():
 
                 P: list[int] = []
                 with open(pospath, encoding="UTF-8") as file:
-                    for line in file.readlines():
+                    for line in file:
                         ind = line.rstrip()
                         P.append(A.indmap[ind])
 
                 N: list[int] = []
                 with open(negpath, encoding="UTF-8") as file:
-                    for line in file.readlines():
+                    for line in file:
                         ind = line.rstrip()
                         N.append(A.indmap[ind])
 
@@ -90,7 +97,7 @@ def main():
 
                     end = time.perf_counter()
 
-                    print("==== TOOK {}".format(end - start))
+                    print(f"==== TOOK {end - start}")
                     t1 = end - start
                     time_without_reduction.append(t1)
 
@@ -110,7 +117,7 @@ def main():
 
                     end = time.perf_counter()
 
-                    print("==== TOOK {}".format(end - start))
+                    print(f"==== TOOK {end - start}")
                     t2 = end - start
 
                     time_with_reduction.append(t2)

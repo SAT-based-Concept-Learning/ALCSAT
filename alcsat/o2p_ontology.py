@@ -9,10 +9,10 @@ SPECIAL_CHARS = {
 
 class FeatureNotSupported(Exception):
     def __init__(self, *args):
-        super(FeatureNotSupported, self).__init__(*args)
+        super().__init__(*args)
 
 
-class Ontology(object):
+class Ontology:
     def __init__(self):
         self.__classes = {}
         self.__rules = []  # class rules
@@ -77,7 +77,7 @@ class Ontology(object):
         return len(self.__rules)
 
 
-class NameFactory(object):
+class NameFactory:
     __i = 0
     created_names = set()
 
@@ -89,7 +89,7 @@ class NameFactory(object):
         return name
 
 
-class OntologyObject(object):
+class OntologyObject:
     """The base class for all entities in the ontology."""
 
     def to_latex(self):
@@ -103,7 +103,7 @@ class OntologyObject(object):
         return False
 
 
-class SubProperty(object):
+class SubProperty:
     def __init__(self, subject, object_):
         self.subject = subject
         self.object = object_
@@ -112,7 +112,7 @@ class SubProperty(object):
         return "%s %s %s" % (self.subject, SPECIAL_CHARS["\\sqsubseteq"], self.object)
 
 
-class Property(object):
+class Property:
     pass
 
 
@@ -202,7 +202,7 @@ class Rule(OntologyObject):
         :param object_:
         :type object_: Expression
         """
-        super(Rule, self).__init__()
+        super().__init__()
         self.__subject = subject
         self.__object = object_
 
@@ -284,7 +284,7 @@ class DisjointWith(Rule):
 
 class Thing(Expression):
     def __init__(self, identifier):
-        super(Thing, self).__init__(identifier)
+        super().__init__(identifier)
 
     def normalize_rhs(self):
         return [self], []
@@ -297,7 +297,7 @@ class ClassIdentifier(Expression):
     """A class in the ontology."""
 
     def __init__(self, identifier):
-        super(ClassIdentifier, self).__init__(identifier)
+        super().__init__(identifier)
 
     def normalize_rhs(self):
         return [self], []
@@ -313,7 +313,7 @@ class TopClass(Expression):
     """A class in the ontology."""
 
     def __init__(self):
-        super(TopClass, self).__init__()
+        super().__init__()
 
     def normalize_rhs(self):
         return [self], []
@@ -329,7 +329,7 @@ class Restriction(Expression):
     """"""
 
     def __init__(self, quantifier, prop):
-        super(Restriction, self).__init__()
+        super().__init__()
         self.quantifier = quantifier
         self.prop = prop
 
@@ -352,7 +352,7 @@ class Intersection(Expression):
     """"""
 
     def __init__(self, children):
-        super(Intersection, self).__init__()
+        super().__init__()
         self.children = children
 
     def normalize_lhs(self):
@@ -398,7 +398,7 @@ class Union(Expression):
     """"""
 
     def __init__(self, children):
-        super(Union, self).__init__()
+        super().__init__()
         self.children = children
 
     def normalize_rhs(self):
@@ -412,7 +412,7 @@ class Union(Expression):
 
 class Complement(Expression):
     def __init__(self, child):
-        super(Complement, self).__init__()
+        super().__init__()
         self.child = child
 
     def normalize_rhs(self):
@@ -420,12 +420,12 @@ class Complement(Expression):
         # raise FeatureNotSupported('complement')
 
     def __str__(self):
-        return f"not {str(self.child)}"
+        return f"not {self.child!s}"
 
 
 class OneOf(Expression):
     def __init__(self, children):
-        super(OneOf, self).__init__()
+        super().__init__()
         self.children = children
 
     def normalize_rhs(self):
@@ -436,7 +436,7 @@ class OneOf(Expression):
         return "one_of(%s)" % sep.join(map(str, self.children))
 
 
-class Quantifier(object):
+class Quantifier:
     def to_string(self, prop):
         raise NotImplementedError()
 

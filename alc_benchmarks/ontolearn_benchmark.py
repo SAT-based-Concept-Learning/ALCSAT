@@ -1,7 +1,3 @@
-from ontolearn.triple_store import OWLDataHasValue
-from ontolearn.metrics import F1
-from ontolearn.utils.static_funcs import compute_f1_score
-from owlapy.class_expression import OWLClassExpression, OWLClass, OWLObjectUnionOf, OWLObjectIntersectionOf, OWLRestriction, OWLObjectMinCardinality, OWLObjectMaxCardinality, OWLObjectExactCardinality, OWLObjectSomeValuesFrom, OWLObjectAllValuesFrom, OWLObjectComplementOf, OWLDatatypeRestriction, OWLDataSomeValuesFrom
 import json
 import os
 import sys
@@ -11,8 +7,23 @@ from ontolearn.heuristics import CELOEHeuristic
 from ontolearn.knowledge_base import KnowledgeBase
 from ontolearn.learners import CELOE, TDL, EvoLearner
 from ontolearn.learning_problem import PosNegLPStandard
-from ontolearn.metrics import Accuracy
+from ontolearn.metrics import F1, Accuracy
 from ontolearn.refinement_operators import ModifiedCELOERefinement
+from ontolearn.triple_store import OWLDataHasValue
+from ontolearn.utils.static_funcs import compute_f1_score
+from owlapy.class_expression import (
+    OWLClass,
+    OWLClassExpression,
+    OWLDataSomeValuesFrom,
+    OWLObjectAllValuesFrom,
+    OWLObjectComplementOf,
+    OWLObjectExactCardinality,
+    OWLObjectIntersectionOf,
+    OWLObjectMaxCardinality,
+    OWLObjectMinCardinality,
+    OWLObjectSomeValuesFrom,
+    OWLObjectUnionOf,
+)
 from owlapy.owl_individual import IRI, OWLNamedIndividual
 from owlapy.render import DLSyntaxObjectRenderer
 
@@ -206,17 +217,17 @@ def main():
     P: list[str] = []
     N: list[str] = []
     with open(sys.argv[2], encoding="UTF-8") as file:
-        for line in file.readlines():
+        for line in file:
             ind = line.rstrip()
             P.append(ind)
 
     with open(sys.argv[3], encoding="UTF-8") as file:
-        for line in file.readlines():
+        for line in file:
             ind = line.rstrip()
             N.append(ind)
 
     q, res = run_evo(sys.argv[1], P, N)
-    print("{} {}".format(q, res))
+    print(f"{q} {res}")
     # ontolearn_examples_to_dllearner(sys.argv[1], sys.argv[2])
     # ontolearn_examples_to_flat_json(sys.argv[1], sys.argv[2])
 
