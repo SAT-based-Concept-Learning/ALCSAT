@@ -20,7 +20,7 @@ for the description logic EL.
 
 ## Requirements
 - python >=3.12
-- uv package manager obtainable from https://github.com/astral-sh/uv
+- uv package manager: https://docs.astral.sh/uv/ 
 - all other dependencies are specified in `pyproject.toml` and are automatically handled by uv.
 
 ## Run
