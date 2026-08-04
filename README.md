@@ -5,7 +5,7 @@ description logic ALCQI(f) as described in the paper
 
 ALCSAT takes as input an OWL knowledge base and examples labelled as positive or
 negative. ALCSAT then searches for a description logic concept that covers all
-positive examples, excludes all negative example and is of minimal size.
+positive examples, excludes all negative examples and is of minimal size.
 
 By default, ALCSAT searches for a concept of the expressive description logic ALCQI(f) that includes
 - all concept constructors of ALC,
@@ -17,6 +17,10 @@ However, the search can be restricted to any syntactic fragment, e.g. ELI or ALC
 ALCSAT shares some implementation details with SPELL
 <https://github.com/spell-system/SPELL>, an implementation of bounded fitting
 for the description logic EL.
+
+The code in this repository is licensed under the MIT License, see LICENSE.
+
+If you encounter any problem or have a question, feel free to open an issue.
 
 ## Requirements
 - python >=3.12
