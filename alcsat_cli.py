@@ -6,11 +6,10 @@ from alcsat.fitting_alc import FittingALC, FittingMode
 from alcsat.instance import OP
 from alcsat.structures import structure_from_owl
 
-LANGUAGES = ["el", "el_alcsat", "fl0", "ex-or", "all-or", "elu", "alc", "alcq"]
+LANGUAGES = ["el", "eli", "fl0", "ex-or", "all-or", "elu", "alc", "alcq", "alci", "alcqif"]
 L_OP = {
     "el": [OP.EX, OP.AND],
     "eli": [OP.EX, OP.AND, OP.INV],
-    "el_alcsat": [OP.EX, OP.AND],
     "fl0": [OP.ALL, OP.AND],
     "ex-or": [OP.EX, OP.OR],
     "all-or": [OP.ALL, OP.OR],
@@ -44,7 +43,7 @@ def main():
         type=str,
         default="alcqf",
         choices=LANGUAGES,
-        help="language to learn in, el: {exists, and}, el_alcsat: {exists, and}, fl0: {forall, and}, ex-or: {exists, or}, all-or: {forall, or}, elu: {exists, and, or}, alc: {forall, exists, and, or, neg}, alcq: {forall, exists, and, or, neg, le, ge} (default=alcq)",
+        help="language to learn in, el: {exists, and}, fl0: {forall, and}, ex-or: {exists, or}, all-or: {forall, or}, elu: {exists, and, or}, alc: {forall, exists, and, or, neg}, alcq: {forall, exists, and, or, neg, le, ge} (default=alcq)",
     )
 
     _ = parser.add_argument("--max_size", type=int, default=12, help="(default=12)")
@@ -55,6 +54,8 @@ def main():
         default=FittingMode.APPROX,
         help="(default=approx)",
     )
+    _ = parser.add_argument("--notop", action="store_true", help="disables the top concept")
+    _ = parser.add_argument("--nobot", action="store_true", help="disables the bottom concept")
 
     _ = parser.add_argument(
         "--timeout", type=float, default=-1, help="in seconds (default=-1)"
@@ -102,6 +103,12 @@ def main():
 
     time_parsed = time.perf_counter()
 
+    exclude_atomic = []
+    if args.notop:
+        exclude_atomic.append(OP.TOP)
+    if args.nobot:
+        exclude_atomic.append(OP.BOT)
+
     print("== Starting incremental search search for fitting query")
     time_start_solve = time.perf_counter()
 
@@ -114,6 +121,7 @@ def main():
         op=frozenset(L_OP[args.language]),
         workers=args.workers,
         max_q=args.max_q,
+        exclude_atomic=exclude_atomic
     )
     remaining_time = -1
     if args.timeout != -1:
