@@ -1,8 +1,8 @@
 import time
 
-from spell.benchmark_tools import execute_sml_bench
-from spell.fitting import mode, solve, solve_incr
-from spell.structures import (
+from alcsat.benchmark_tools import execute_sml_bench
+from alcsat.fitting_el import mode, solve, solve_incr
+from alcsat.structures import (
     ABoxBuilder,
     compact_canonical_model,
     map_ind_name,
@@ -657,7 +657,7 @@ def test_owl_bench():
 
 
 def test_resoning1():
-    from spell.structures import EL_TBox
+    from alcsat.structures import EL_TBox
 
     t = EL_TBox("top")
     for i in range(1, 15):
@@ -683,7 +683,7 @@ def test_resoning1():
 
 
 def test_resoning2():
-    from spell.structures import EL_TBox
+    from alcsat.structures import EL_TBox
 
     t = EL_TBox("top")
     t.add_axiom4("r", "A", "A")
@@ -708,7 +708,7 @@ def test_resoning2():
 
 
 def test_TBox():
-    from spell.structures import EL_TBox
+    from alcsat.structures import EL_TBox
 
     t = EL_TBox("top")
 

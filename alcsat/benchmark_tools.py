@@ -4,7 +4,7 @@ import random
 import time
 from collections.abc import Generator
 
-from .fitting import mode, non_empty_symbols, solve_incr
+from .fitting_el import mode, non_empty_symbols, solve_incr
 from .structures import (
     ABoxBuilder,
     Signature,

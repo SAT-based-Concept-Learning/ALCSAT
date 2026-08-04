@@ -1,8 +1,8 @@
 from enum import Enum
 from collections import defaultdict
 from typing import Any
-from spell.instance import ALCConcept, Instance, OP
-from spell.structures import Signature, Structure, ind
+from alcsat.instance import ALCConcept, Instance, OP
+from alcsat.structures import Signature, Structure, ind
 from scipy.cluster.vq import kmeans
 from numpy import array
 

@@ -1,12 +1,12 @@
-from spell.fitting_alc import perfect_fitting
-from spell.preprocessing import (
+from alcsat.fitting_alc import perfect_fitting
+from alcsat.preprocessing import (
     color_refinement,
     ThresholdMethod,
     decode_dataproperties,
 )
-from spell.fitting import non_empty_symbols
-from spell.instance import ALCConcept, OP, Instance
-from spell.structures import Signature, Structure, structure_from_owl
+from alcsat.fitting_el import non_empty_symbols
+from alcsat.instance import ALCConcept, OP, Instance
+from alcsat.structures import Signature, Structure, structure_from_owl
 
 
 def main():

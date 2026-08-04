@@ -8,8 +8,8 @@ from typing import Any
 from pysat.card import CardEnc, EncType
 from pysat.solvers import Solver
 
-from spell.instance import ALC_OP, OP, ALCConcept, Instance
-from spell.preprocessing import (
+from alcsat.instance import ALC_OP, OP, ALCConcept, Instance
+from alcsat.preprocessing import (
     bisimulation_reduction,
     decode_dataproperties,
     decode_inverses,
@@ -26,7 +26,7 @@ from spell.preprocessing import (
     simplify_conj,
 )
 
-from .fitting import (
+from .fitting_el import (
     determine_relevant_symbols,
     non_empty_symbols,
 )
@@ -91,7 +91,7 @@ class ALCSATEncoding:
             r: min(q, self.inst.max_q)
             for r, q in determine_max_q_per_relation(instance).items()
         }
-        self.exclude_atomic : Iterable[OP] = [],
+        self.exclude_atomic : Iterable[OP] = []
 
     def add_clause(self, c: Iterable[int]):
         self.clauses.append(c)

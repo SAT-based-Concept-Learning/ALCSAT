@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from enum import IntEnum
 from typing import Any
 
-from spell.structures import Signature, Structure, ind
+from alcsat.structures import Signature, Structure, ind
 
 
 class OP(IntEnum):

@@ -11,14 +11,14 @@ import pandas as pd
 from owlready2 import default_world, get_ontology
 from rdflib import Graph
 
-from spell.benchmark_tools import construct_owl_from_structure
-from spell.fitting import determine_relevant_symbols
-from spell.fitting_alc import FittingALC
-from spell.structures import Signature, Structure, map_ind_name, structure_from_owl
-from spell.instance import ALC_OP, OP, Instance
-from spell.preprocessing import color_refinement, ThresholdMethod
+from alcsat.benchmark_tools import construct_owl_from_structure
+from alcsat.fitting_el import determine_relevant_symbols
+from alcsat.fitting_alc import FittingALC
+from alcsat.structures import Signature, Structure, map_ind_name, structure_from_owl
+from alcsat.instance import ALC_OP, OP, Instance
+from alcsat.preprocessing import color_refinement, ThresholdMethod
 
-from spell.preprocessing import restrict_to_neighborhood
+from alcsat.preprocessing import restrict_to_neighborhood
 
 from .ontolearn_benchmark import run_evo, run_tdl
 

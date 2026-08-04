@@ -1,8 +1,8 @@
-from spell.preprocessing import ThresholdMethod
+from alcsat.preprocessing import ThresholdMethod
 import time
-from alcsat import L_OP
-from spell.structures import structure_from_owl
-from spell.fitting_alc import FittingALC
+from alcsat_cli import L_OP
+from alcsat.structures import structure_from_owl
+from alcsat.fitting_alc import FittingALC
 
 
 def main():

@@ -1,7 +1,7 @@
-from spell.fitting_alc import FittingALC, all_trees
-from spell.structures import Structure, Signature
-from spell.instance import ALCQ_OP, OP, ALCConcept, Instance
-from spell.preprocessing import (
+from alcsat.fitting_alc import FittingALC, all_trees
+from alcsat.structures import Structure, Signature
+from alcsat.instance import ALCQ_OP, OP, ALCConcept, Instance
+from alcsat.preprocessing import (
     bisimulation_reduction,
     color_refinement,
     extract_concept,

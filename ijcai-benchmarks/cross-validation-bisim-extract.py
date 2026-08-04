@@ -5,13 +5,13 @@ from ontolearn.utils.static_funcs import compute_f1_score
 import time
 from ontolearn.learners import TDL
 from ontolearn.knowledge_base import KnowledgeBase
-from spell.fitting import determine_relevant_symbols
+from alcsat.fitting_el import determine_relevant_symbols
 import sys
-from spell.structures import structure_from_owl
-from spell.fitting_alc import FittingALC, perfect_fitting
-from spell.preprocessing import ThresholdMethod
+from alcsat.structures import structure_from_owl
+from alcsat.fitting_alc import FittingALC, perfect_fitting
+from alcsat.preprocessing import ThresholdMethod
 import random
-from spell.instance import Instance, OP
+from alcsat.instance import Instance, OP
 import numpy as np
 
 

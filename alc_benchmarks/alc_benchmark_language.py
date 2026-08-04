@@ -4,9 +4,9 @@ import time
 
 import pandas as pd
 
-from spell.fitting_alc import FittingALC
-from spell.instance import ALC_OP
-from spell.structures import map_ind_name, structure_from_owl
+from alcsat.fitting_alc import FittingALC
+from alcsat.instance import ALC_OP
+from alcsat.structures import map_ind_name, structure_from_owl
 
 from .alc_benchmark import read_examples_from_json
 
